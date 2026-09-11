@@ -7,10 +7,10 @@ while(True):
     if not stock.isdigit():
         failed+=1
         continue
-    if int(stock)<0:
+    if (stock)<0:
         failed+=1
         continue
-    total+=int(stock)
+    total+=(stock)
     if total>500:
         print("Inventory exceeds 500!")
         break
