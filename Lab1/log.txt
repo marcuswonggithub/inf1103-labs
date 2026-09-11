@@ -1,0 +1,29 @@
+commit 38cbb066ea52ea7728cd4043d98db1b9cdf6f555
+Author: Marcus Wong Yu Xuan <2603182@sit.singapore.tech.edu.sg>
+Date:   Fri Sep 4 11:15:45 2026 +0800
+
+    Fun conditions
+
+commit e58e800e611b2a994bc5601bc22d4b648ea979e8
+Author: Marcus Wong Yu Xuan <2603182@sit.singapore.tech.edu.sg>
+Date:   Fri Sep 4 11:11:37 2026 +0800
+
+    Assignment Variables
+
+commit f7d593c639aaa7e1118124de917d7a9d0bc0534f
+Author: Marcus Wong Yu Xuan <2603182@sit.singapore.tech.edu.sg>
+Date:   Fri Sep 4 10:59:28 2026 +0800
+
+    Dynamic Profile
+
+commit bc7e29d9489dab5f4df34c14243903e447d7ecde
+Author: Marcus Wong Yu Xuan <2603182@sit.singapore.tech.edu.sg>
+Date:   Fri Sep 4 10:55:42 2026 +0800
+
+    Added Profile Variables
+
+commit 1cec33652be36f219e348b4b4831ec123ee1b3f4
+Author: Marcus Wong Yu Xuan <2603182@sit.singapore.tech.edu.sg>
+Date:   Fri Sep 4 10:42:41 2026 +0800
+
+    First Post
