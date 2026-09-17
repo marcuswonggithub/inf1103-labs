@@ -7,6 +7,11 @@ def get_valid_input(total,failed):
         if not stock.isdigit():
             failed+=1
             continue
-        total+=int(stock)
+        total=process_delivery(total,int(stock))
+
+def process_delivery(current_total,new_value):
+    current_total+=new_value
+    return current_total
+
 
 print(get_valid_input(total=0,failed=0))
