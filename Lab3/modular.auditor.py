@@ -1,14 +1,14 @@
-
-def get_valid_input(total,failed):
+def get_valid_input():
+    failed=0
     while True:
-        stock=input("Enter stock quantity: ")
+        stock=input("Enter stock quantity or 'quit': ")
         if stock == "quit":
-            return total, failed
-        if not stock.isdigit():
-            failed+=1
-            continue
-        total=process_delivery(total,int(stock))
-
+            return "quit", failed
+        if stock.isdigit():
+            return int(stock), failed
+        failed+=1
+        print("Invalid entry, try again")
+    
 def process_delivery(current_total,new_value):
     current_total+=new_value
     return current_total
@@ -23,9 +23,17 @@ Number of Rejected Entries: {failed_number}
 Total Tax: {tax} """) 
 
 def program():    
-    total_amount,failed_number=get_valid_input(total=0,failed=0)
-    tax=calculate_tax(total_amount)
-    generate_report(total_amount, failed_number, tax)
+    total=0
+    total_tax=0
+    total_failed=0
+    while True:
+        stock,failed=get_valid_input()
+        total_failed+=failed
+        if stock == "quit":
+            break
+        total_tax+=calculate_tax(stock)
+        total=process_delivery(total,stock)
+    generate_report(total,total_failed,total_tax)
 
 program()
 
