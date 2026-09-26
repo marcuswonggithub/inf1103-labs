@@ -19,6 +19,13 @@ def load_inventory():
         # Start with an empty inventory
         return 0, []
 
+def save_inventory(total, history):
+    with open(INVENTORY_FILE, "w") as file:
+        file.write(str(total) + "\n")
+        file.write(",".join(str(value) for value in history))
+
+    print("Inventory successfully saved to inventory.txt")
+
 def get_valid_input():
     failed=0
     while True:
@@ -46,7 +53,7 @@ Total Tax: {tax} """)
 
 def program():    
     total, transaction_history = load_inventory()
-    total_tax=0
+    total_tax=calculate_tax(total)
     total_failed=0
     print(f"Previously Saved Total: {total}")
     print(f"Previous Transaction History: {transaction_history}")
@@ -58,7 +65,9 @@ def program():
             break
         total_tax+=calculate_tax(stock)
         total=process_delivery(total,stock)
+        transaction_history.append(stock)
     generate_report(total,total_failed,total_tax)
+    save_inventory(total,transaction_history)
 
 program()
 
