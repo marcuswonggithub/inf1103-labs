@@ -1,30 +1,17 @@
-
-
 import json
 
 
 def load_inventory():
     try:
-    
-        # Read the JSON file
-        with open("load_inventory.json", "r", encoding="utf-8") as file:
+        with open("inventory.json", "r", encoding="utf-8") as file:
             data_list = json.load(file)
 
         # Convert the list into a dictionary keyed by ID
         data_dict = {item["ID"]: item for item in data_list}
 
         print("""Inventory.json found.
-        Inventory loaded successfully
-        
------------ MENU -----------
-1. Display All Products
-2. Add Product
-3. Update Stock
-4. Search Product
-5. Save Inventory
-6. Exit
-----------------------------
-Enter option: """)
+Inventory loaded successfully
+""")
 
         return data_dict
 
@@ -33,13 +20,13 @@ Enter option: """)
         return {}
 
 def save_inventory(inventory):
-    with open("load_inventory.json", "w", encoding="utf-8") as file:
+    with open("inventory.json", "w", encoding="utf-8") as file:
         json.dump(list(inventory.values()), file, indent=4)
 
 def get_valid_input():
     while True:
         choice = input("Enter option: ")
-        if choice in (1,2,3,4,5,6):
+        if choice in ("1","2","3","4","5","6"):
             return choice
         print("Invalid entry, try again")
 
@@ -127,23 +114,60 @@ def update_stock(inventory):
     inventory[product_id]["Stock"] = stock
     print("Stock updated successfully!")
 
+def search_product(inventory):
+    print("Search Product")
+    product_id = input("Enter Product ID: ")
 
+    if product_id not in inventory:
+        print("Product not found.")
+        return
 
-def program():    
+    product = inventory[product_id]
+
+    print("Product Found")
+    print("------------------------------------------------")
+    print(f"ID: {product['ID']}")
+    print(f"Name: {product['Name']}")
+    print(f"Price: {product['Price']}")
+    print(f"Stock: {product['Stock']}")
+    print("------------------------------------------------")
+
+def program():
+    print("""========================================
+INVENTORY MANAGEMENT SYSTEM
+======================================
+""")
     inventory = load_inventory()
-    
+    print("""----------- MENU -----------
+1. Display All Products
+2. Add Product
+3. Update Stock
+4. Search Product
+5. Save Inventory
+6. Exit
+----------------------------""")
     while True:
-        value=get_valid_input()
-        if value == 1:
+        value = get_valid_input()
+        if value == "1":
             display(inventory)
-        if value == 2:
+        if value == "2":
             add_product(inventory)
-        if value == 3:
+        if value == "3":
             update_stock(inventory)
-        if value == 6:
+        if value == "4":
+            search_product(inventory)
+        if value == "5":
+            print("Saving inventory...")
+            save_inventory(inventory)
+            print("Inventory saved successfully to load_inventory.json.")
+        if value == "6":
+            print("Saving inventory before exit...")
             break
-    save_inventory(inventory)
 
+    save_inventory(inventory)
+    print("Inventory saved successfully.")
+    print("Thank you for using Inventory Management System.")
+    print("Program terminated.")
 
 
 program()
