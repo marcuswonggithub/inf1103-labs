@@ -8,24 +8,28 @@ def load_inventory():
             data_list = json.load(file)
 
         # Convert the list into a dictionary keyed by ID
+        inventory = Inventory()
         for item in data_list:
-            item["ID"] = Product(item)
-
-        data_dict = {item["ID"]: item for item in data_list}
-
+            product_id = item["ID"]
+            product_obj = Product(item["ID"], item["Name"], item["Price"], item["Stock"])
+            inventory.add_product(product_id, product_obj)
         print("""Inventory.json found.
 Inventory loaded successfully
 """)
 
-        return data_dict
+        return inventory
 
     except FileNotFoundError:
         # Start with an empty inventory
-        return {}
+        return Inventory()
 
 def save_inventory(inventory):
+    storage_list = []
+    for product in inventory.storage.values():
+        storage_list.append(product.to_dict())
+    
     with open("inventory.json", "w", encoding="utf-8") as file:
-        json.dump(list(inventory.values()), file, indent=4)
+        json.dump(storage_list, file, indent=4)
 
 def get_valid_input():
     while True:

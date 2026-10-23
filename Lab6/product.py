@@ -16,5 +16,11 @@ Price: {self.__price}
 Stock: {self.__stock}
 '''
 
+    def to_dict(self):
+        return {"ID":{self.__ID}, 
+                "Name": self.__name,
+                "Price": self.__price,
+                "Stock": self.__stock}
+
 product1 = Product("P001", "Laptop", 1200.00, 15) # creating product from Product class, via init
 print(product1.display_information())
