@@ -25,8 +25,9 @@ Inventory loaded successfully
 
 def save_inventory(inventory):
     storage_list = []
-    for product in inventory.storage.values():
-        storage_list.append(product.to_dict())
+    inventory_list = inventory.display_all()
+    for product in inventory_list:
+        storage_list.append(product.display_information())
     
     with open("inventory.json", "w", encoding="utf-8") as file:
         json.dump(storage_list, file, indent=4)
@@ -41,20 +42,18 @@ def get_valid_input():
 def display(inventory):
     print("Current Inventory")
     print("-------------------------------------------------------------------")
-    for product in inventory.values():
-        print(
-            f"ID: {product['ID']} | "
-            f"Name: {product['Name']} | "
-            f"Price: {product['Price']} | "
-            f"Stock: {product['Stock']}"
-        )
+    for product in inventory.display_all():
+        print(" | ".join(
+            f"{key}: {value}"
+            for key, value in product.display_information().items()
+        ))
 
     print("---------------------------------------------------------------------")
 
-def get_non_negative_number(field,type,prompt):
+def get_non_negative_number(field,number_type,prompt):
     while True:
             try:
-                value = type(input(f"{prompt}"))
+                value = number_type(input(f"{prompt}"))
     
                 if value < 0:
                     print(f"{field} cannot be negative.")
@@ -65,66 +64,60 @@ def get_non_negative_number(field,type,prompt):
                 print("Please enter a number.")
 
 
-def add_product(inventory):
+def handles_add_product(inventory):
     print("Add New Product")
 
     product_id = input("Product ID: ")
 
-    if product_id in inventory:
+    if inventory.search_product(product_id):
         print("Product ID already exists.")
         return
 
     name = input("Product Name: ")
+    price = get_non_negative_number("price",float,"Price: ")
+    stock = get_non_negative_number("stock",int,"Stock: ")
 
-
-    
-    price = get_non_negative_number("price",float,"price: ")
-    
-    stock = get_non_negative_number("stock",int,"stock: ")
-
-    inventory[product_id] = {
-        "ID": product_id,
-        "Name": name,
-        "Price": f"${price:.2f}",
-        "Stock": stock
-    }
+    new_product = Product(product_id, name, price, stock)
+    inventory.add_product(product_id, new_product)
 
     print("Product added successfully")
 
 def update_stock(inventory):
     print("Update Stock")
     product_id = input("Enter Product ID: ")
+    product = inventory.search_product(product_id)
 
-    if product_id not in inventory:
+    if not product:
         print("Product not found.")
         return
 
     print("Product Found:")
-    print(f"Name: {inventory[product_id]['Name']}")
-    print(f"Current Stock: {inventory[product_id]['Stock']}")
+    details = product.display_information()
+    print(f"Name: {details['Name']}")
+    print(f"Current Stock: {details['Stock']}")
 
     stock = get_non_negative_number("stock", int, "New Stock Quantity: ")
            
+    product.update_stock(stock)
 
-    inventory[product_id]["Stock"] = stock
     print("Stock updated successfully!")
 
-def search_product(inventory):
+def handles_search_product(inventory):
     print("Search Product")
     product_id = input("Enter Product ID: ")
 
-    if product_id not in inventory:
+    product = inventory.search_product(product_id)
+
+    if not product:
         print("Product not found.")
         return
 
-    product = inventory[product_id]
-
     print("Product Found")
     print("------------------------------------------------")
-    print(f"ID: {product['ID']}")
-    print(f"Name: {product['Name']}")
-    print(f"Price: {product['Price']}")
-    print(f"Stock: {product['Stock']}")
+    print("\n".join(
+                f"{key}: {value}"
+                for key, value in product.display_information().items()
+            ))
     print("------------------------------------------------")
 
 def program():
@@ -145,17 +138,17 @@ INVENTORY MANAGEMENT SYSTEM
         value = get_valid_input()
         if value == "1":
             display(inventory)
-        if value == "2":
-            add_product(inventory)
-        if value == "3":
+        elif value == "2":
+            handles_add_product(inventory)
+        elif value == "3":
             update_stock(inventory)
-        if value == "4":
-            search_product(inventory)
-        if value == "5":
+        elif value == "4":
+            handles_search_product(inventory)
+        elif value == "5":
             print("Saving inventory...")
             save_inventory(inventory)
-            print("Inventory saved successfully to load_inventory.json.")
-        if value == "6":
+            print("Inventory saved successfully to inventory.json.")
+        elif value == "6":
             print("Saving inventory before exit...")
             break
 

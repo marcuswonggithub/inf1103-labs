@@ -10,14 +10,7 @@ class Product:
         self.__stock = stock
 
     def display_information(self):
-        return f'''ID : {self.__ID}
-Name: {self.__name}
-Price: {self.__price}
-Stock: {self.__stock}
-'''
-
-    def to_dict(self):
-        return {"ID":{self.__ID}, 
+        return {"ID": self.__ID, 
                 "Name": self.__name,
                 "Price": self.__price,
                 "Stock": self.__stock}
