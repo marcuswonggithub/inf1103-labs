@@ -1,8 +1,8 @@
 FROM python:3.11-slim
+
 WORKDIR /app
-COPY main.py /app/
-COPY inventory.py /app/
-COPY product.py /app/
+
+COPY main.py product.py inventory.py physical_product.py digital_product.py can_be_shipped.py /app/
 COPY inventory.json /app/
 
 CMD ["python", "main.py"]
