@@ -1,8 +1,8 @@
 import json
-from product import Product
 from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
 from inventory import Inventory
+from can_be_shipped import CanBeShipped
 
 def load_inventory():
     try:
@@ -46,10 +46,10 @@ def save_inventory(inventory):
     with open("inventory.json", "w", encoding="utf-8") as file:
         json.dump(storage_list, file, indent=4)
 
-def get_valid_input():
+def get_valid_input(option):
     while True:
         choice = input("Enter option: ")
-        if choice in ("1","2","3","4","5","6"):
+        if choice in option:
             return choice
         print("Invalid entry, try again")
 
@@ -91,7 +91,18 @@ def handles_add_product(inventory):
     price = get_non_negative_number("price",float,"Price: ")
     stock = get_non_negative_number("stock",int,"Stock: ")
 
-    new_product = Product(product_id, name, price, stock)
+    print("Choose\n1. Physical\n2. Digital")
+    product_type_option = get_valid_input(("1","2"))
+
+    if product_type_option == "1":
+        weight = get_non_negative_number("weight",float,"Weight in kg: ")
+        new_product = PhysicalProduct(product_id, name, price, stock, weight)
+
+    else:
+        download_size = get_non_negative_number("download size",float,"Download Size in MB: ")
+        new_product = DigitalProduct(product_id, name, price, stock, download_size)
+
+
     inventory.add_product(product_id, new_product)
 
     print("Product added successfully")
@@ -132,6 +143,10 @@ def handles_search_product(inventory):
                 f"{key}: {value}"
                 for key, value in product.display_information().items()
             ))
+
+    if isinstance(product, CanBeShipped):
+        print(f"Shipping Cost: {product.calculate_shipping_cost()}")
+    print(product.get_fulfilment_info())
     print("------------------------------------------------")
 
 def program():
@@ -149,7 +164,7 @@ INVENTORY MANAGEMENT SYSTEM
 6. Exit
 ----------------------------""")
     while True:
-        value = get_valid_input()
+        value = get_valid_input(("1","2","3","4","5","6"))
         if value == "1":
             display(inventory)
         elif value == "2":
