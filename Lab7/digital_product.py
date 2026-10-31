@@ -8,7 +8,8 @@ class DigitalProduct(Product):
 
     def display_information(self):
         details = super().display_information()
-        details["File Size"] = self._download_size
+        details["Download_size"] = self._download_size
+        details["Type"] = "digital"
         return details
 
     def get_fulfilment_info(self):

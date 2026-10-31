@@ -1,5 +1,7 @@
 import json
 from product import Product
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
 from inventory import Inventory
 
 def load_inventory():
@@ -10,9 +12,21 @@ def load_inventory():
         # Convert the list into a dictionary keyed by ID
         inventory = Inventory()
         for item in data_list:
-            product_id = item["ID"]
-            product_obj = Product(item["ID"], item["Name"], item["Price"], item["Stock"])
-            inventory.add_product(product_id, product_obj)
+            if item["Type"] == "physical":
+                product_obj = PhysicalProduct(item["ID"], 
+                                      item["Name"], 
+                                      item["Price"], 
+                                      item["Stock"], 
+                                      item["Weight"])
+            else:
+                product_obj = DigitalProduct(item["ID"],
+                                      item["Name"],
+                                      item["Price"],
+                                      item["Stock"],
+                                      item["Download_size"])
+        
+            
+            inventory.add_product(item["ID"], product_obj)
         print("""Inventory.json found.
 Inventory loaded successfully
 """)

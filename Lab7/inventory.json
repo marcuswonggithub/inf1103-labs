@@ -3,30 +3,34 @@
         "ID": "P001",
         "Name": "Laptop",
         "Price": 1200.00,
-        "Stock": 15
+        "Stock": 15,
+        "Weight": 2.5,
+        "Type": "physical"
+
     },
     {
         "ID": "P002",
         "Name": "Mouse",
         "Price": 25.50,
-        "Stock": 40
+        "Stock": 40,
+        "Weight": 0.2,
+        "Type": "physical"
     },
     {
         "ID": "P003",
         "Name": "Keyboard",
         "Price": 45.00,
-        "Stock": 25
-    },
-    {
-        "ID": "P1005",
-        "Name": "Phone",
-        "Price": 999.00,
-        "Stock": 5
+        "Stock": 25,
+        "Weight": 2.0,
+        "Type": "physical"
     },
     {
         "ID": "P004",
-        "Name": "Tablet",
-        "Price": 979.0,
-        "Stock": 10
+        "Name": "Music",
+        "Price": 45.00,
+        "Stock": 25,
+        "Download_size": 10,
+        "Type": "digital"
     }
+   
 ]
